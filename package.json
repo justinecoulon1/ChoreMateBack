@@ -1,0 +1,12 @@
+{
+  "name": "choremate",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A simple chore application, and maybe more",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JS Fullstack - Bruxelles Formation",
+  "license": "ISC"
+}
