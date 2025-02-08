@@ -1,0 +1,8 @@
+[
+  {
+    "id": 1,
+    "name": "La famille de Paul",
+    "members": [1, 2],
+    "chores": [1, 2, 3]
+  }
+]
