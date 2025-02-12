@@ -7,6 +7,11 @@ const context = {
 
 const choresModel = {
 
+    getById: (id) => {
+        const chore = context.chores.find(c => c.id === id);
+        return chore;
+    },
+
     add: (choreName, choreAssignee) => {
         const newChore = {
             id: context.nextId,

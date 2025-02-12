@@ -12,6 +12,12 @@ import choresModel from '../model/chores.model.js';
  */
 const choreController = {
 
+    getById: (req, res) => {
+        const id = parseInt(req.params.id);
+        const chore = choresModel.getById(id);
+        res.status(200).json(chore);
+    },
+
     addPOST: (req, res) => {
         try {
             const newChore = choresModel.add(req.body.name, req.body.assignee);
