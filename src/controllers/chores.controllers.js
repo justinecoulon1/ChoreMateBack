@@ -12,10 +12,14 @@ import choresModel from '../model/chores.model.js';
  */
 const choreController = {
 
-    getById: (req, res) => {
+    details: (req, res) => {
         const id = parseInt(req.params.id);
         const chore = choresModel.getById(id);
-        res.status(200).json(chore);
+        if (chore) {
+            res.status(200).json(chore)
+            return;
+        };
+        res.status(404).json({err: "Not found"});
     },
 
     addPOST: (req, res) => {
@@ -26,6 +30,12 @@ const choreController = {
         } catch(error) {
             res.status(401).json({ err: error.message });
         }
+    },
+
+    completePOST: (req, res) => {
+        const id = parseInt(req.params.id);
+        const chore = choresModel.markAsCompleted(id);
+        res.status(200).json(chore);
     }
 
 };

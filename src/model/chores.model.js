@@ -24,6 +24,15 @@ const choresModel = {
         console.log(context.chores);
 
         return newChore;
+    },
+
+    markAsCompleted: (id) => {
+        let chore = choresModel.getById(id);
+        if (chore) {
+            chore.status = 'DONE';
+            return chore;
+        }
+        return {err: "The chore wasn't found."};
     }
 
 }

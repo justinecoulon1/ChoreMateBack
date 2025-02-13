@@ -4,7 +4,8 @@ import validateChore from '../middlewares/chores/validateChore.js';
 
 const choresRouter = express.Router();
 
-choresRouter.get('/:id', choreController.getById);
+choresRouter.get('/:id', choreController.details);
 choresRouter.post('/add', validateChore, choreController.addPOST);
+choresRouter.post('/:id/complete', choreController.completePOST);
 
 export default choresRouter;
