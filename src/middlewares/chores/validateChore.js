@@ -5,7 +5,14 @@ const validateChore = (req, res, next) => {
 
     req.body.name = req.body.name.trim();
 
-    req.body.assignee = req.body.assignee.trim() && !isNaN(req.body.assignee) ? [parseInt(req.body.assignee)] : [];
+    if (req.body.assignee.trim() && !isNaN(req.body.assignee)) {
+        req.body.assignee = parseInt(req.body.assignee);
+        // check if usersModel.getById(req.body.assignee) existe, sinon req.body.assignee = [];
+    } else {
+        req.body.assignee = [];
+    }
+
+    if (!req.body.date) req.body.date = "";
 
     next();
 };

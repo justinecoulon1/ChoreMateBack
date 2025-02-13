@@ -3,18 +3,21 @@
     "id": 1,
     "name": "Faire la vaisselle",
     "assignee": [1],
-    "status": "TODO"
+    "status": "TODO",
+    "date": "2025-02-20"
   },
   {
     "id": 2,
     "name": "Tondre la pelouse",
     "assignee": [2],
-    "status": "DONE"
+    "status": "DONE",
+    "date": "2025-02-13"
   },
   {
     "id": 3,
     "name": "Nourrir les chats",
     "assignee": [],
-    "status": "TODO"
+    "status": "TODO",
+    "date": "2025-02-22"
   }
 ]

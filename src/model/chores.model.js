@@ -12,12 +12,13 @@ const choresModel = {
         return chore;
     },
 
-    add: (choreName, choreAssignee) => {
+    add: (choreName, choreAssignee, choreDate) => {
         const newChore = {
             id: context.nextId,
             name: choreName,
             assignee: choreAssignee,
-            status: 'TODO'
+            status: 'TODO',
+            date: choreDate
         }
         context.chores.push(newChore);
         context.nextId++;

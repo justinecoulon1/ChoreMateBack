@@ -24,7 +24,7 @@ const choreController = {
 
     addPOST: (req, res) => {
         try {
-            const newChore = choresModel.add(req.body.name, req.body.assignee);
+            const newChore = choresModel.add(req.body.name, req.body.assignee, req.body.date);
             console.log(newChore);
             res.status(201).json(newChore);
         } catch(error) {
