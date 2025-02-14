@@ -1,10 +1,12 @@
 [
   {
     "id": 1,
-    "name": "Paul"
+    "name": "Paul",
+    "nb_points" : 5
   },
   {
     "id": 2,
-    "name": "Mireille"
+    "name": "Mireille",
+    "nb_points" : 2
   }
 ]
