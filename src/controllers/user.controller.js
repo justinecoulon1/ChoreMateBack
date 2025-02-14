@@ -67,8 +67,17 @@ const userController = {
         nbPoints = parseInt(nbPoints);
         const updatedUser = userModel.updateNbPoints(id, nbPoints);
         res.json(updatedUser);
+    },
+    deleteUser: (req, res) => {
+        const id = parseInt(req.params.id);
+        const user = userModel.getById(id);
+        if (!user) {
+            res.status(404).json({ error: "User not found!" });
+            return;
+        }
+        userModel.delete(id);
+        res.json("User deleted!")
     }
-
 }
 
 export default userController;
