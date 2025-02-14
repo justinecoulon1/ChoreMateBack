@@ -33,7 +33,12 @@ const userModel = {
         const user = context.users.find(user => user.id === id);
         user.nb_points = nbPoints;
         return structuredClone(user);
+    },
+    delete(id) {
+        context.users = context.users.filter(user => user.id !== id);
+        // TODO delete the chores related to the users (DB option : CASCADE)
     }
+
 
 }
 
