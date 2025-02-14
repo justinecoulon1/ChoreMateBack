@@ -20,7 +20,7 @@ const userController = {
         id = parseInt(id);
         const user = userModel.getById(id);
         if (!user) {
-            res.status(400).json({ error: "User not found!" });
+            res.status(404).json({ error: "User not found!" });
             return;
         }
         res.json(user);
@@ -34,6 +34,39 @@ const userController = {
         }
         const newUser = userModel.addUser(name);
         res.json(newUser);
+    },
+    updateUser: (req, res) => {
+        const id = parseInt(req.params.id);
+        const user = userModel.getById(id);
+        if (!user) {
+            res.status(404).json({ error: "User not found!" });
+            return;
+        }
+        let { name } = req.body;
+        name = name?.trim();
+        console.log("hey", name);
+        if (!name) {
+            res.status(400).json({ error: "Invalid name !" });
+            return;
+        }
+        const updatedUser = userModel.updateUser(id, name);
+        res.json(updatedUser);
+    },
+    updateNbPoints: (req, res) => {
+        const id = parseInt(req.params.id);
+        const user = userModel.getById(id);
+        if (!user) {
+            res.status(404).json({ error: "User not found!" });
+            return;
+        }
+        let { nbPoints } = req.body;
+        if (isNaN(nbPoints)) {
+            res.status(400).json({ error: "Invalid number of points!" });
+            return;
+        }
+        nbPoints = parseInt(nbPoints);
+        const updatedUser = userModel.updateNbPoints(id, nbPoints);
+        res.json(updatedUser);
     }
 
 }

@@ -23,6 +23,16 @@ const userModel = {
         context.users.push(newUser);
         context.nextId++;
         return newUser;
+    },
+    updateUser: (id, name) => {
+        const user = context.users.find(user => user.id === id);
+        user.name = name;
+        return structuredClone(user);
+    },
+    updateNbPoints: (id, nbPoints) => {
+        const user = context.users.find(user => user.id === id);
+        user.nb_points = nbPoints;
+        return structuredClone(user);
     }
 
 }
