@@ -1,43 +1,77 @@
-import express from 'express'
+import express from 'express';
 import choresModel from '../model/chores.model.js';
 
 /**
  * @callback ExpressCallback
- * @param {express.Request} req 
- * @param {express.Response} res 
+ * @param {express.Request} req
+ * @param {express.Response} res
  */
 /**
  * User Controller
  * @type {Object<string, ExpressCallback>}
  */
 const choreController = {
-
     details: (req, res) => {
         const id = parseInt(req.params.id);
         const chore = choresModel.getById(id);
         if (chore) {
-            res.status(200).json(chore)
+            res.status(200).json(chore);
             return;
-        };
-        res.status(404).json({err: "Not found"});
+        }
+        res.status(404).json({ err: 'Not found' });
     },
 
-    addPOST: (req, res) => {
+    addPost: (req, res) => {
         try {
             const newChore = choresModel.add(req.body.name, req.body.assignee, req.body.date);
             console.log(newChore);
             res.status(201).json(newChore);
-        } catch(error) {
+        } catch (error) {
             res.status(401).json({ err: error.message });
         }
     },
 
-    completePOST: (req, res) => {
+    completeChore: (req, res) => {
+        if (!req.params.id) {
+            res.status(400).json({ error: 'Missing chore ID' });
+            return;
+        }
+
         const id = parseInt(req.params.id);
+        if (isNaN(id)) {
+            res.status(400).json({ error: 'Invalid chore ID' });
+            return;
+        }
+
         const chore = choresModel.markAsCompleted(id);
         res.status(200).json(chore);
-    }
+    },
 
+    addAssignee: (req, res) => {
+        const { chore, user } = req;
+
+        if (chore.assignee.includes(user.id)) {
+            res.status(400).json({ error: 'User already assigned to this chore' });
+            return;
+        }
+
+        choresModel.addAssignee(chore.id, user.id);
+
+        res.status(200).json(chore);
+    },
+
+    removeAssignee: (req, res) => {
+        const { chore, user } = req;
+
+        if (!chore.assignee.includes(user.id)) {
+            res.status(400).json({ error: 'User not assigned to this chore' });
+            return;
+        }
+
+        choresModel.removeAssignee(chore.id, user.id);
+
+        res.status(200).json(chore);
+    },
 };
 
 export default choreController;

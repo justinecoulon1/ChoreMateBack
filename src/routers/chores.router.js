@@ -1,11 +1,14 @@
 import express from 'express';
 import choreController from '../controllers/chores.controllers.js';
-import validateChore from '../middlewares/chores/validateChore.js';
+import validateAssigneeMiddleware from '../middlewares/chores/validateAssignee.middleware.js';
+import validateChoreMiddleware from '../middlewares/chores/validateChore.middleware.js';
 
 const choresRouter = express.Router();
 
 choresRouter.get('/:id', choreController.details);
-choresRouter.post('/add', validateChore, choreController.addPOST);
-choresRouter.post('/:id/complete', choreController.completePOST);
+choresRouter.post('/add', validateChoreMiddleware, choreController.addPost);
+choresRouter.put('/:id/complete', choreController.completeChore);
+choresRouter.put('/:id/add_assignee/:assigneeId', validateAssigneeMiddleware, choreController.addAssignee);
+choresRouter.put('/:id/remove_assignee/:assigneeId', validateAssigneeMiddleware, choreController.removeAssignee);
 
 export default choresRouter;

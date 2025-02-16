@@ -34,7 +34,24 @@ const choresModel = {
             return chore;
         }
         return {err: "The chore wasn't found."};
+    },
+
+    addAssignee: (choreId, userId) => {
+        const chore = choresModel.getById(choreId);
+        chore.assignee.push(userId);
+
+        return structuredClone(chore);
+    },
+
+    removeAssignee: (choreId, userId) => {
+        const chore = choresModel.getById(choreId);
+        chore.assignee = chore.assignee.filter((uId) => uId !== userId);
+
+        return structuredClone(chore);
     }
+
+
+    
 
 }
 
