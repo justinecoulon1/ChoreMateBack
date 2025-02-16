@@ -1,6 +1,5 @@
 import express from 'express';
 import choresModel from '../model/chores.model.js';
-import userModel from '../model/user.model.js';
 
 /**
  * @callback ExpressCallback
@@ -32,8 +31,18 @@ const choreController = {
         }
     },
 
-    completePost: (req, res) => {
+    completeChore: (req, res) => {
+        if (!req.params.id) {
+            res.status(400).json({ error: 'Missing chore ID' });
+            return;
+        }
+
         const id = parseInt(req.params.id);
+        if (isNaN(id)) {
+            res.status(400).json({ error: 'Invalid chore ID' });
+            return;
+        }
+
         const chore = choresModel.markAsCompleted(id);
         res.status(200).json(chore);
     },
@@ -46,7 +55,7 @@ const choreController = {
             return;
         }
 
-        chore.assignee.push(user.id);
+        choresModel.addAssignee(chore.id, user.id);
 
         res.status(200).json(chore);
     },
@@ -59,7 +68,7 @@ const choreController = {
             return;
         }
 
-        chore.assignee = chore.assignee.filter((userId) => userId !== user.id);
+        choresModel.removeAssignee(chore.id, user.id);
 
         res.status(200).json(chore);
     },
