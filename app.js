@@ -1,9 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 import userRouter from './src/routers/user.router.js';
 import choresRouter from './src/routers/chores.router.js';
 
-const { NODE_ENV, PORT } = process.env;
+const { NODE_ENV, PORT, CLIENT_ORIGIN } = process.env;
 
 const app = express();
 
@@ -15,7 +16,12 @@ app.use(express.json());
 app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/users" , userRouter);
+// Enable CORS to allow the front-end to access our routes
+app.use(cors({
+    origin: CLIENT_ORIGIN
+}))
+
+app.use("/users", userRouter);
 app.use("/chores", choresRouter);
 
 app.listen(PORT, () => {
