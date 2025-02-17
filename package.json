@@ -12,6 +12,7 @@
   "author": "JS Fullstack - Bruxelles Formation",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.0.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.9"
