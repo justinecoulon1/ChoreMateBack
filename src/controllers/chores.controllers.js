@@ -74,10 +74,10 @@ const choreController = {
     },
 
     deleteChore: (req, res) => {
-        const choreId = parseInt(req.params.id);
-        const response = choresModel.delete(choreId);
+        const choreId = req.params.id;
+        choresModel.delete(choreId);
 
-        res.status(200).json(response.status);
+        res.status(200).json("Chore was successfully deleted.");
     }
 };
 
