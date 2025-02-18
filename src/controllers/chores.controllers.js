@@ -72,6 +72,13 @@ const choreController = {
 
         res.status(200).json(chore);
     },
+
+    deleteChore: (req, res) => {
+        const choreId = req.params.id;
+        choresModel.delete(choreId);
+
+        res.status(200).json({"Status": "Done"});
+    }
 };
 
 export default choreController;

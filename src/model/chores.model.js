@@ -48,6 +48,10 @@ const choresModel = {
         chore.assignee = chore.assignee.filter((uId) => uId !== userId);
 
         return structuredClone(chore);
+    },
+
+    delete: (choreId) => {
+        context.chores = context.chores.filter(c => c.id != choreId);
     }
 
 

@@ -10,5 +10,6 @@ choresRouter.post('/add', validateChoreMiddleware, choreController.addPost);
 choresRouter.put('/:id/complete', choreController.completeChore);
 choresRouter.put('/:id/add_assignee/:assigneeId', validateAssigneeMiddleware, choreController.addAssignee);
 choresRouter.put('/:id/remove_assignee/:assigneeId', validateAssigneeMiddleware, choreController.removeAssignee);
+choresRouter.delete('/:id/deleteChore', choreController.deleteChore);
 
 export default choresRouter;
