@@ -51,7 +51,13 @@ const choresModel = {
     },
 
     delete: (choreId) => {
+        const chore = choresModel.getById(choreId);
+        if (!chore) {
+            return {status: "Chore was not found."};
+        }
+
         context.chores = context.chores.filter(c => c.id != choreId);
+        return {status: "Chore was deleted successfully."};
     }
 
 
