@@ -1,12 +1,22 @@
 [
   {
     "id": 1,
-    "name": "Paul",
-    "nb_points" : 5
+    "name": "Paul"
   },
   {
     "id": 2,
-    "name": "Mireille",
-    "nb_points" : 2
+    "name": "Mireille"
+  },
+  {
+    "id": 3,
+    "name": "Jean"
+  },
+  {
+    "id": 4,
+    "name": "Sophie"
+  },
+  {
+    "id": 5,
+    "name": "Sarah"
   }
 ]

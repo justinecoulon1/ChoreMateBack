@@ -2,7 +2,13 @@
   {
     "id": 1,
     "name": "La famille de Paul",
-    "members": [1, 2],
+    "admin_id": 1,
+    "chores": [1, 2, 3]
+  },
+  {
+    "id": 2,
+    "name": "Amis",
+    "admin_id": 4,
     "chores": [1, 2, 3]
   }
 ]
