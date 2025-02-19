@@ -1,11 +1,14 @@
 import express from 'express'
 import groupController from '../controllers/group.controller.js';
 import validateGroupMiddleWare from '../middlewares/groups/validateGroup.middleware.js';
+import validateCreateGroupMiddleWare from '../middlewares/groups/validateCreateGroup.middleware.js';
 
 
 const groupRouter = express.Router();
 
-groupRouter.get('/', groupController.getAll);
+groupRouter.route('/')
+    .get(groupController.getAll)
+    .post(validateCreateGroupMiddleWare, groupController.addGroup);
 groupRouter.get('/:id', validateGroupMiddleWare, groupController.getById);
 
 export default groupRouter;
