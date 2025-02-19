@@ -13,6 +13,9 @@ import groupModel from '../model/group.model.js';
 const groupController = {
     getAll: (req, res) => {
         res.json(groupModel.getAll());
+    },
+    getById: (req, res) => {
+        res.json(req.group);
     }
 }
 

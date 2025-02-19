@@ -8,6 +8,10 @@ const context = {
 const groupModel = {
     getAll: () => {
         return structuredClone(context.groups);
+    },
+    getById: (id) => {
+        const group = context.groups.find(group => group.id === id);
+        return group;
     }
 }
 
