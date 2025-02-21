@@ -2,7 +2,7 @@
     {
       "id": 1,
       "groupe_id": 1,
-      "user_id": 2,
+      "user_id": 1,
       "role": "ADMIN",
       "nb_points" : 2
     },
@@ -19,6 +19,13 @@
       "user_id": 3,
       "role": "USER",
       "nb_points" : 10
+    },
+    {
+      "id": 4,
+      "groupe_id": 2,
+      "user_id": 4,
+      "role": "ADMIN",
+      "nb_points" : 3
     }
    
   ]

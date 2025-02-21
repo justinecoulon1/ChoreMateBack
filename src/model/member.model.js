@@ -7,10 +7,10 @@ const context = {
 
 const memberModel = {
 
-    addMember: (adminGroupId, groupeId, role) => {
+    addMember: (adminGroupId, groupId, role) => {
         const newMember = {
             "id": context.nextId,
-            "groupe_id": groupeId,
+            "groupe_id": groupId,
             "user_id": adminGroupId,
             role: role,
             nb_points: 0
