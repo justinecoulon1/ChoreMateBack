@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import userRouter from './src/routers/user.router.js';
 import choresRouter from './src/routers/chores.router.js';
+import groupRouter from './src/routers/group.router.js';
 
 const { NODE_ENV, PORT, CLIENT_ORIGIN } = process.env;
 
@@ -23,6 +24,7 @@ app.use(cors({
 
 app.use("/users", userRouter);
 app.use("/chores", choresRouter);
+app.use("/groups", groupRouter);
 
 app.listen(PORT, () => {
     console.log(`Web server is running on port ${PORT} [${NODE_ENV}]`);
