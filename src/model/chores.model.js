@@ -15,7 +15,6 @@ const choresModel = {
 
     getAllInAGroup: (group) => {
         const choresTab = [];
-        console.log(group);
 
         for (let choreId of group.chores) {
             const chore = choresModel.getById(choreId);
