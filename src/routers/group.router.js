@@ -10,5 +10,6 @@ groupRouter.route('/')
     .get(groupController.getAll)
     .post(validateCreateGroupMiddleWare, groupController.addGroup);
 groupRouter.get('/:id', validateGroupMiddleWare, groupController.getById);
+groupRouter.get('/:id/chores', validateGroupMiddleWare, groupController.getAllChoresInAGroup);
 
 export default groupRouter;

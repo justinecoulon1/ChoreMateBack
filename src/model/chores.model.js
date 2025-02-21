@@ -13,15 +13,16 @@ const choresModel = {
         return chore;
     },
 
-    getAllInAGroup: (groupId) => {
-        const chores = [];
-        const group = groupModel.getById(groupId);
+    getAllInAGroup: (group) => {
+        const choresTab = [];
+        console.log(group);
 
-        for (let chore of group.chores) {
-            chores.push(chore);
+        for (let choreId of group.chores) {
+            const chore = choresModel.getById(choreId);
+            choresTab.push(chore);
         }
 
-        return chores;
+        return (choresTab.length > 0) ? structuredClone(choresTab) : null;
     },
 
     add: (choreName, choreAssignee, choreDate) => {
