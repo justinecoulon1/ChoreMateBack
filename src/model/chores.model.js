@@ -1,4 +1,5 @@
 import chores from '../../mockup_data/chores.json' with { type: 'json' };
+import groupModel from './group.model.js';
 
 const context = {
     chores: chores,
@@ -10,6 +11,17 @@ const choresModel = {
     getById: (id) => {
         const chore = context.chores.find(c => c.id === id);
         return chore;
+    },
+
+    getAllInAGroup: (groupId) => {
+        const chores = [];
+        const group = groupModel.getById(groupId);
+
+        for (let chore of group.chores) {
+            chores.push(chore);
+        }
+
+        return chores;
     },
 
     add: (choreName, choreAssignee, choreDate) => {
