@@ -21,7 +21,7 @@ const choresModel = {
             choresTab.push(chore);
         }
 
-        return (choresTab.length > 0) ? structuredClone(choresTab) : null;
+        return structuredClone(choresTab);
     },
 
     add: (choreName, choreAssignee, choreDate) => {
