@@ -13,6 +13,10 @@ const userModel = {
     getById: (id) => {
         const user = context.users.find(user => user.id === id);
         return structuredClone(user);
+    },    
+    getByEmail: (email) => {
+        const user = context.users.find(user => user.email.toLocaleLowerCase() === email.toLocaleLowerCase());
+        return structuredClone(user);
     },
     addUser: (name) => {
         const newUser = {

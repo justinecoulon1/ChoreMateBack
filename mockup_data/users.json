@@ -1,22 +1,32 @@
 [
   {
     "id": 1,
-    "name": "Paul"
+    "name": "Paul",
+    "email": "p@gmail.com",
+    "password": "123"
   },
   {
     "id": 2,
-    "name": "Mireille"
+    "name": "Mireille",
+    "email": "m@gmail.com",
+    "password": "123"
   },
   {
     "id": 3,
-    "name": "Jean"
+    "name": "Jean",
+    "email": "j@gmail.com",
+    "password": "123"
   },
   {
     "id": 4,
-    "name": "Sophie"
+    "name": "Sophie",
+    "email": "s@gmail.com",
+    "password": "123"
   },
   {
     "id": 5,
-    "name": "Sarah"
+    "name": "Sarah",
+    "email": "sagmail.com",
+    "password": "123"
   }
 ]
