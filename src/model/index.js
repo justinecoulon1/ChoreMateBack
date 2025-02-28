@@ -1,8 +1,9 @@
 import { Sequelize } from "sequelize";
-import ingredientBuilder from "./ingredient.model.js";
-import recetteBuilder from "./recette.model.js";
-import recetteIngredientBuilder from "./recette-ingredient.model.js"
-import platBuilder from "./plat.model.js";
+import userBuilder from "./builders/user.builder.js";
+import groupBuilder from "./builders/groupBuilder.js";
+import memberBuilder from "./builders/member.builder.js";
+import choreBuilder from "./builders/chore.builder.js";
+import memberChoreBuilder from "./builders/memberChore.builder.js";
 
 
 const { DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_DIALECT } = process.env;
@@ -23,29 +24,63 @@ export const db = {};
 db.sequelize = sequelize;
 
 //! Definition des modèles
+// Initialisation des modèles
+const User = userBuilder(sequelize);
+const Group = groupBuilder(sequelize);
+const Member = memberBuilder(sequelize);
+const Chore = choreBuilder(sequelize);
+const MemberChore = memberChoreBuilder(sequelize);
 
-db.ingredient = ingredientBuilder(sequelize);
+// Définition des relations
+User.hasMany(Member, { foreignKey: "userId" });
+Member.belongsTo(User, { foreignKey: "userId" });
 
-db.recette = recetteBuilder(sequelize);
+Group.hasMany(Member, { foreignKey: "groupId" });
+Member.belongsTo(Group, { foreignKey: "groupId" });
 
-db.plat = platBuilder(sequelize);
+Group.hasMany(Chore, { foreignKey: "groupId" });
+Chore.belongsTo(Group, { foreignKey: "groupId" });
 
-db.recetteIngredient = recetteIngredientBuilder(sequelize);
-
-//! Définition des contraintes
-//? [One to Many] recette - plat
-db.plat.hasMany(db.recette, { foreignKey: { allowNull: false } });
-db.recette.belongsTo(db.plat, { foreignKey: { allowNull: false } });
-
-//? [Many to Many] recette - ingredient
-
-//? -Simple = Sans aucuns attributs !
-// db.recette.belongsToMany(db.ingredient, { through: 'recette_ingredient' });
-// db.ingredient.belongsToMany(db.recette, { through: 'recette_ingredient' });
-
-//? - Via un model : Permet de customiser la table intermediaire
-db.recette.belongsToMany(db.ingredient, { through: db.recetteIngredient });
-db.ingredient.belongsToMany(db.recette, { through: db.recetteIngredient });
+// Many-to-Many : Member <-> Chore via MemberChore
+Member.belongsToMany(Chore, { through: MemberChore, foreignKey: "memberId" });
+Chore.belongsToMany(Member, { through: MemberChore, foreignKey: "choreId" });
 
 
-export default db;
+
+const connectDB = async () => {
+    // DB connection
+    try {
+        await db.sequelize.authenticate();
+
+        console.log('Connexion DB - Success !');
+    }
+    catch (err) {
+        console.log('Connection DB - Fail');
+        console.log(err);
+        process.exit();
+    }
+
+    if (process.env.NODE_ENV === 'dev') {
+        //? Méthode d'initialisation de la DB (basic)
+        // await db.sequelize.sync();
+
+        //? Methode d'initialisation et modification de la DB
+        //? Modification autorisé sur les tables
+        // await db.sequelize.sync({
+        //     alter: true
+        // });
+
+        //? Ajouts autorisé sur les tables
+        // await db.sequelize.sync({
+        //     alter: { drop: false }
+        // });
+
+        //? Methode pour forcer la recréation complete des tables (Dernier recours - Uniquement en DEV !!!)
+        await db.sequelize.sync({
+            force: true
+        });
+    }
+}
+
+
+export { sequelize, User, Group, Member, Chore, MemberChore, connectDB};

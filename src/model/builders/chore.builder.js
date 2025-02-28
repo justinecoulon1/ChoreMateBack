@@ -1,35 +1,35 @@
 import { DataTypes, Sequelize } from "sequelize";
 
 /**
- * User Builder
+ * Chore Builder
  * @param {Sequelize} sequelize
  * @returns 
  */
-export default function userBuilder(sequelize) {
-    const User = sequelize.define(
+export default function choreBuilder(sequelize) {
+    const Chore = sequelize.define(
         // Nom du Model
-        'user',
+        'chore',
         // Attributs
         {
             name: {
                 type: DataTypes.STRING(50),
                 allowNull: false
             },
-            email: {
-                type: DataTypes.STRING(50),
+            status: {
+                type: DataTypes.STRING(10),
                 allowNull: false
             },
-            password: {
-                type: DataTypes.STRING(255),
+            dueDate: {
+                type: DataTypes.DATE,
                 allowNull: false
             }
         },
         // Options
         {
-            tableName: 'user',
+            tableName: 'chore',
             timestamps: false
         }
     );
 
-    return User;
+    return Chore;
 };

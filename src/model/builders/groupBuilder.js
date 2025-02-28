@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 
 /**
- * Ingredient Builder
+ * Group Builder
  * @param {Sequelize} sequelize
  * @returns 
  */
