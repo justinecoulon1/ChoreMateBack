@@ -5,31 +5,34 @@ import { DataTypes, Sequelize } from "sequelize";
  * @param {Sequelize} sequelize
  * @returns 
  */
-export default function userBuilder(sequelize) {
-    const User = sequelize.define(
+export default function memberBuilder(sequelize) {
+    const Member = sequelize.define(
         // Nom du Model
-        'user',
+        'member',
         // Attributs
         {
-            name: {
-                type: DataTypes.STRING(50),
+            groupId: {
+                type: DataTypes.NUMBER,
                 allowNull: false
             },
-            email: {
-                type: DataTypes.STRING(50),
+            userId: {
+                type: DataTypes.NUMBER,
                 allowNull: false
             },
-            password: {
-                type: DataTypes.STRING(255),
+            role: {
+                type: DataTypes.STRING(20),
                 allowNull: false
+            },
+            score: {
+                type: DataTypes.NUMBER
             }
         },
         // Options
         {
-            tableName: 'user',
+            tableName: 'member',
             timestamps: false
         }
     );
 
-    return User;
+    return Member;
 };
