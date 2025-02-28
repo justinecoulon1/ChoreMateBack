@@ -16,12 +16,16 @@ export default function choreBuilder(sequelize) {
                 allowNull: false
             },
             status: {
-                type: DataTypes.STRING(10),
-                allowNull: false
+                type: DataTypes.ENUM('TODO', 'DONE'),
+                allowNull: false,
+                defaultValue: 'TODO'
             },
             dueDate: {
                 type: DataTypes.DATE,
-                allowNull: false
+                allowNull: false,
+                validate: {
+                    isAfter: new Date().toISOString().split('T')[0]
+                }
             }
         },
         // Options

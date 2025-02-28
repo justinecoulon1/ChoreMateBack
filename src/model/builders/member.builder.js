@@ -16,7 +16,12 @@ export default function memberBuilder(sequelize) {
                 allowNull: false
             },
             score: {
-                type: DataTypes.INTEGER
+                type: DataTypes.INTEGER,
+                validate: {
+                    isPositive(value) {
+                        if (value < 0) throw new Error ("Score can't be negative");
+                    }
+                }
             }
         },
         // Options

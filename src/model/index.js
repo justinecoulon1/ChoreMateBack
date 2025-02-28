@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import userBuilder from "./builders/user.builder.js";
-import groupBuilder from "./builders/groupBuilder.js";
+import groupBuilder from "./builders/group.builder.js";
 import memberBuilder from "./builders/member.builder.js";
 import choreBuilder from "./builders/chore.builder.js";
 import memberChoreBuilder from "./builders/memberChore.builder.js";
