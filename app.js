@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import authRouter from './src/routers/auth.router.js';
 import choresRouter from './src/routers/chores.router.js';
 import groupRouter from './src/routers/group.router.js';
-import { connectDB } from './src/model/index.js';
+import { db } from './src/model/index.js';
 import userRouter from './src/routers/user.router.js';
 
 const { NODE_ENV, PORT, CLIENT_ORIGIN, SESSION_SECRET } = process.env;
@@ -39,7 +39,7 @@ app.use(
   }),
 );
 
-connectDB();
+await db.connectDB();
 
 app.use("/users", userRouter);
 app.use("/chores", choresRouter);

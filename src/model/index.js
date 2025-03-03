@@ -25,13 +25,18 @@ db.sequelize = sequelize;
 
 //! Definition des modèles
 // Initialisation des modèles
-const User = userBuilder(sequelize);
-const Group = groupBuilder(sequelize);
-const Member = memberBuilder(sequelize);
-const Chore = choreBuilder(sequelize);
-const MemberChore = memberChoreBuilder(sequelize);
+
+const models = {
+    User: userBuilder(sequelize),
+    Group: groupBuilder(sequelize),
+    Member: memberBuilder(sequelize),
+    Chore: choreBuilder(sequelize),
+    MemberChore: memberChoreBuilder(sequelize)
+}
 
 // Définition des relations
+const { User, Group, Member, Chore, MemberChore } = models;
+
 User.hasMany(Member, { foreignKey: "userId" });
 Member.belongsTo(User, { foreignKey: "userId" });
 
@@ -82,5 +87,7 @@ const connectDB = async () => {
     }
 }
 
+db.connectDB = connectDB;
+db.models = models;
 
-export { sequelize, User, Group, Member, Chore, MemberChore, connectDB};
+export default { db };
