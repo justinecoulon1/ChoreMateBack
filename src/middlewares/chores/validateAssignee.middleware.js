@@ -1,5 +1,5 @@
-import choresModel from '../../model/chores.model.js';
-import userModel from '../../model/user.model.js';
+import choresModel from '../../repositories/chores.repository.js';
+import userModel from '../../repositories/user.repository.js';
 
 const validateAssigneeMiddleware = (req, res, next) => {
     if (!req.params.id) {

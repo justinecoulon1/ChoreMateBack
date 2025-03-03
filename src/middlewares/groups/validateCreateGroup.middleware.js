@@ -1,4 +1,4 @@
-import userModel from '../../model/user.model.js';
+import userModel from '../../repositories/user.repository.js';
 
 const validateCreateGroupMiddleWare = (req, res, next) => {
 

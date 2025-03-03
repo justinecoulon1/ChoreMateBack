@@ -1,5 +1,5 @@
 import chores from '../../mockup_data/chores.json' with { type: 'json' };
-import groupModel from './group.model.js';
+import groupModel from './group.repository.js';
 
 const context = {
     chores: chores,

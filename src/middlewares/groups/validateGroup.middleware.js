@@ -1,4 +1,4 @@
-import groupModel from "../../model/group.model.js";
+import groupModel from "../../repositories/group.repository.js";
 
 const validateGroupMiddleWare = (req, res, next) => {
     if (!req.params.id) {

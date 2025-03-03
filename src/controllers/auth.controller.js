@@ -1,5 +1,5 @@
 import express from 'express';
-import userModel from '../model/user.model.js';
+import userModel from '../repositories/user.repository.js';
 
 /**
  * @callback ExpressCallback

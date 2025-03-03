@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import userBuilder from "./builders/user.builder.js";
+import userModel from "./user.model.js";
 import groupBuilder from "./builders/group.builder.js";
 import memberBuilder from "./builders/member.builder.js";
 import choreBuilder from "./builders/chore.builder.js";
@@ -27,7 +27,7 @@ db.sequelize = sequelize;
 // Initialisation des modèles
 
 const models = {
-    User: userBuilder(sequelize),
+    User: userModel(sequelize),
     Group: groupBuilder(sequelize),
     Member: memberBuilder(sequelize),
     Chore: choreBuilder(sequelize),

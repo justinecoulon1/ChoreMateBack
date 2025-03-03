@@ -1,4 +1,4 @@
-import choresModel from "../../model/chores.model.js";
+import choresModel from "../../repositories/chores.repository.js";
 
 const validateDeleteChoreMiddleware = (req, res, next) => {
 

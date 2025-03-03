@@ -1,7 +1,7 @@
 import express from 'express';
-import groupModel from '../model/group.model.js';
-import memberModel from '../model/member.model.js';
-import choresModel from '../model/chores.model.js';
+import groupModel from '../repositories/group.repository.js';
+import memberModel from '../repositories/member.repository.js';
+import choresModel from '../repositories/chores.repository.js';
 
 /**
  * @callback ExpressCallback
