@@ -6,7 +6,7 @@ import { DataTypes, Sequelize } from "sequelize";
  * @returns 
  */
 
-export default function memberChoreBuilder(sequelize) {
+export default function memberChoreModel(sequelize) {
     const MemberChore = sequelize.define(
         'memberChore',
         {},

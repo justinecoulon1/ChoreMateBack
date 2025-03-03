@@ -5,7 +5,7 @@ import { DataTypes, Sequelize } from "sequelize";
  * @param {Sequelize} sequelize
  * @returns 
  */
-export default function groupBuilder(sequelize) {
+export default function groupModel(sequelize) {
     const Group = sequelize.define(
         // Nom du Model
         'group',

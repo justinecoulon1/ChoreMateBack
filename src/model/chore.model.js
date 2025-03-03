@@ -5,7 +5,7 @@ import { DataTypes, Sequelize } from "sequelize";
  * @param {Sequelize} sequelize
  * @returns 
  */
-export default function choreBuilder(sequelize) {
+export default function choreModel(sequelize) {
     const Chore = sequelize.define(
         // Nom du Model
         'chore',

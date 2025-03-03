@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 import userModel from "./user.model.js";
-import groupBuilder from "./builders/group.builder.js";
-import memberBuilder from "./builders/member.builder.js";
-import choreBuilder from "./builders/chore.builder.js";
-import memberChoreBuilder from "./builders/memberChore.builder.js";
+import groupModel from "./group.model.js";
+import memberModel from "./member.model.js";
+import choreModel from "./chore.model.js";
+import memberChoreModel from "./memberChore.model.js";
 
 
 const { DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_DIALECT } = process.env;
@@ -28,10 +28,10 @@ db.sequelize = sequelize;
 
 const models = {
     User: userModel(sequelize),
-    Group: groupBuilder(sequelize),
-    Member: memberBuilder(sequelize),
-    Chore: choreBuilder(sequelize),
-    MemberChore: memberChoreBuilder(sequelize)
+    Group: groupModel(sequelize),
+    Member: memberModel(sequelize),
+    Chore: choreModel(sequelize),
+    MemberChore: memberChoreModel(sequelize)
 }
 
 // Définition des relations

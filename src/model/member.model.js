@@ -5,7 +5,7 @@ import { DataTypes, Sequelize } from "sequelize";
  * @param {Sequelize} sequelize
  * @returns 
  */
-export default function memberBuilder(sequelize) {
+export default function memberModel(sequelize) {
     const Member = sequelize.define(
         // Nom du Model
         'member',

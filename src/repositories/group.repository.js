@@ -1,28 +1,21 @@
-import groups from '../../mockup_data/groups.json' with {type: 'json'}
+import { db } from "../model/index.js";
 
-const context = {
-    groups: groups,
-    nextId: 3
-}
-
-const groupModel = {
-    getAll: () => {
-        return structuredClone(context.groups);
+const groupRepository = {
+    getAll: async () => {
+        return db.models.Group.findAll();
     },
-    getById: (id) => {
-        const group = context.groups.find(group => group.id === id);
+    getById: async (id) => {
+        const group = await db.models.Group.findByPk(id);
         return group;
     },
-    addGroup: (adminGroupId, groupName) => {
+    addGroup: async (adminGroupId, groupName) => {
         const newGroup = {
-            id: context.nextId,
             admin: adminGroupId,
             name: groupName,
-            chores: [] // TODO check this if we shouldn't add another table 
         }
-        context.nextId++;
-        return newGroup;
+
+        return db.models.Group.create(newGroup);
     }
 }
 
-export default groupModel;
+export default groupRepository;
