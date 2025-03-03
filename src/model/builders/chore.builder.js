@@ -24,7 +24,7 @@ export default function choreBuilder(sequelize) {
                 type: DataTypes.DATE,
                 allowNull: false,
                 validate: {
-                    isAfter: new Date().toISOString().split('T')[0]
+                    isAfter: new Date().toISOString()
                 }
             }
         },
