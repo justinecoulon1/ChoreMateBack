@@ -6,7 +6,6 @@ const userRouter = express.Router();
 
 userRouter.get('/', userController.getAll);
 userRouter.get('/:id', validateUserMiddleware, userController.getUser);
-userRouter.post('/register', userController.addUser);
 userRouter.put('/:id', validateUserMiddleware, userController.updateUser);
 userRouter.delete('/:id', validateUserMiddleware, userController.deleteUser);
 

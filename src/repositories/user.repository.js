@@ -10,13 +10,12 @@ const userRepository = {
         return db.models.User.findByPk(id);
     },
     getByEmail: async (email) => {
-
-        const user = db.models.User.findOne({
+        const user = await db.models.User.findOne({
             where: {
                 email: email.toLowerCase(),
             }
         });
-        return structuredClone(user);
+        return user;
     },
     addUser: async ({ name, email, password }) => {
         const newUser = {

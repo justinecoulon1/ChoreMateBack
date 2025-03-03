@@ -18,17 +18,6 @@ const userController = {
     getUser: (req, res) => {
         res.json(req.user);
     },
-    addUser: async (req, res) => {
-        let { name, password, email } = req.body;
-        name = name?.trim();
-        // TODO More validation here : (ZOD ? )
-        if (!name) {
-            res.status(400).json({ error: 'Must have a name' });
-            return;
-        }
-        const newUser = await userRepository.addUser({ name, email, password });
-        res.json(newUser);
-    },
     updateUser: async (req, res) => {
         const id = req.user.id;
 
