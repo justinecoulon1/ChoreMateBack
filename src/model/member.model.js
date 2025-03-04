@@ -1,24 +1,35 @@
-import members from '../../mockup_data/members.json' with {type: 'json'}
+import { DataTypes, Sequelize } from "sequelize";
 
-const context = {
-    members: members,
-    nextId: 4
-}
-
-const memberModel = {
-
-    addMember: (adminGroupId, groupId, role) => {
-        const newMember = {
-            "id": context.nextId,
-            "groupe_id": groupId,
-            "user_id": adminGroupId,
-            role: role,
-            nb_points: 0
+/**
+ * Member Builder
+ * @param {Sequelize} sequelize
+ * @returns 
+ */
+export default function memberModel(sequelize) {
+    const Member = sequelize.define(
+        // Nom du Model
+        'member',
+        // Attributs
+        {
+            role: {
+                type: DataTypes.STRING(20),
+                allowNull: false
+            },
+            score: {
+                type: DataTypes.INTEGER,
+                validate: {
+                    isPositive(value) {
+                        if (value < 0) throw new Error ("Score can't be negative");
+                    }
+                }
+            }
+        },
+        // Options
+        {
+            tableName: 'member',
+            timestamps: false
         }
-        context.members.push(newMember)
-        context.nextId++;
-        console.log(context.members);
-    }
-}
+    );
 
-export default memberModel;
+    return Member;
+};

@@ -1,49 +1,37 @@
-import initialUsers from '../../mockup_data/users.json' with { type: 'json' };
+import { DataTypes, Sequelize } from "sequelize";
 
-const context = {
-    users: initialUsers,
-    nextId: 3
-}
-
-const userModel = {
-
-    getAll: () => {
-        return structuredClone(context.users);
-    },
-    getById: (id) => {
-        const user = context.users.find(user => user.id === id);
-        return structuredClone(user);
-    },    
-    getByEmail: (email) => {
-        const user = context.users.find(user => user.email.toLocaleLowerCase() === email.toLocaleLowerCase());
-        return structuredClone(user);
-    },
-    addUser: (name) => {
-        const newUser = {
-            id: context.nextId,
-            name: name,
-            nb_points: 0,
+/**
+ * User Builder
+ * @param {Sequelize} sequelize
+ * @returns 
+ */
+export default function userModel(sequelize) {
+    const User = sequelize.define(
+        // Nom du Model
+        'user',
+        // Attributs
+        {
+            name: {
+                type: DataTypes.STRING(50),
+                allowNull: false,
+                unique: true
+            },
+            email: {
+                type: DataTypes.STRING(50),
+                allowNull: false,
+                unique: true
+            },
+            password: {
+                type: DataTypes.STRING(255),
+                allowNull: false
+            }
+        },
+        // Options
+        {
+            tableName: 'user',
+            timestamps: false
         }
-        context.users.push(newUser);
-        context.nextId++;
-        return newUser;
-    },
-    updateUser: (id, name) => {
-        const user = context.users.find(user => user.id === id);
-        user.name = name;
-        return structuredClone(user);
-    },
-    updateNbPoints: (id, nbPoints) => {
-        const user = context.users.find(user => user.id === id);
-        user.nb_points = nbPoints;
-        return structuredClone(user);
-    },
-    delete(id) {
-        context.users = context.users.filter(user => user.id !== id);
-        // TODO delete the chores related to the users (DB option : CASCADE)
-    }
+    );
 
-
-}
-
-export default userModel;
+    return User;
+};

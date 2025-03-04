@@ -1,7 +1,7 @@
 import express from 'express';
-import groupModel from '../model/group.model.js';
-import memberModel from '../model/member.model.js';
-import choresModel from '../model/chores.model.js';
+import groupRepository from '../repositories/group.repository.js';
+import memberRepository from '../repositories/member.repository.js';
+import choresRepository from '../repositories/chores.repository.js';
 
 /**
  * @callback ExpressCallback
@@ -13,22 +13,22 @@ import choresModel from '../model/chores.model.js';
  * @type {Object<string, ExpressCallback>}
  */
 const groupController = {
-    getAll: (req, res) => {
-        res.json(groupModel.getAll());
+    getAll: async (req, res) => {
+        const groups = await groupRepository.getAll();
+        res.json(groups);
     },
     getById: (req, res) => {
         res.json(req.group);
     },
-    addGroup: (req, res) => {
+    addGroup: async (req, res) => {
         const { adminGroupId, groupName } = req.body;
-        const newGroup = groupModel.addGroup(adminGroupId, groupName);
-        memberModel.addMember(adminGroupId, newGroup.id, "ADMIN");
+        const newGroup = await groupRepository.addGroup(groupName);
+        await memberRepository.addMember(newGroup.id, adminGroupId, "ADMIN");
         res.json(newGroup);
     },
-    getAllChoresInAGroup: (req, res) => {
+    getAllChoresInAGroup: async (req, res) => {
         const group = req.group;
-        const chores = choresModel.getAllInAGroup(group);
-
+        const chores = await choresRepository.getAllInAGroup(group);
         res.json(chores);
     }
 }

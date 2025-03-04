@@ -1,4 +1,4 @@
-import choresModel from "../../model/chores.model.js";
+import choresRepository from "../../repositories/chores.repository.js";
 
 const validateDeleteChoreMiddleware = (req, res, next) => {
 
@@ -14,7 +14,7 @@ const validateDeleteChoreMiddleware = (req, res, next) => {
         return;
     }
 
-    const chore = choresModel.getById(id);
+    const chore = choresRepository.getById(id);
 
     if (!chore) {
         res.status(400).json({ error: "Chore was not found." });

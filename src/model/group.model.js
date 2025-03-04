@@ -1,28 +1,27 @@
-import groups from '../../mockup_data/groups.json' with {type: 'json'}
+import { DataTypes, Sequelize } from "sequelize";
 
-const context = {
-    groups: groups,
-    nextId: 3
-}
-
-const groupModel = {
-    getAll: () => {
-        return structuredClone(context.groups);
-    },
-    getById: (id) => {
-        const group = context.groups.find(group => group.id === id);
-        return group;
-    },
-    addGroup: (adminGroupId, groupName) => {
-        const newGroup = {
-            id: context.nextId,
-            admin: adminGroupId,
-            name: groupName,
-            chores: [] // TODO check this if we shouldn't add another table 
+/**
+ * Group Builder
+ * @param {Sequelize} sequelize
+ * @returns 
+ */
+export default function groupModel(sequelize) {
+    const Group = sequelize.define(
+        // Nom du Model
+        'group',
+        // Attributs
+        {
+            name: {
+                type: DataTypes.STRING(50),
+                allowNull: false
+            }
+        },
+        // Options
+        {
+            tableName: 'group',
+            timestamps: false
         }
-        context.nextId++;
-        return newGroup;
-    }
-}
+    );
 
-export default groupModel;
+    return Group;
+};
