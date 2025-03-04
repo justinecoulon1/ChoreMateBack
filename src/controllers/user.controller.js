@@ -1,5 +1,5 @@
 import express from 'express';
-import userModel from '../model/user.model.js';
+import userRepository from '../repositories/user.repository.js';
 
 /**
  * @callback ExpressCallback
@@ -11,23 +11,14 @@ import userModel from '../model/user.model.js';
  * @type {Object<string, ExpressCallback>}
  */
 const userController = {
-    getAll: (req, res) => {
-        res.json(userModel.getAll());
+    getAll: async (req, res) => {
+        const users = await userRepository.getAll();
+        res.json(users);
     },
     getUser: (req, res) => {
         res.json(req.user);
     },
-    addUser: (req, res) => {
-        let { name } = req.body;
-        name = name?.trim();
-        if (!name) {
-            res.status(400).json({ error: 'Must have a name' });
-            return;
-        }
-        const newUser = userModel.addUser(name);
-        res.json(newUser);
-    },
-    updateUser: (req, res) => {
+    updateUser: async (req, res) => {
         const id = req.user.id;
 
         let { name } = req.body;
@@ -38,25 +29,13 @@ const userController = {
             return;
         }
 
-        const updatedUser = userModel.updateUser(id, name);
+        const updatedUser = await userRepository.updateUser(id, name);
         res.json(updatedUser);
     },
-    updateNbPoints: (req, res) => {
+    deleteUser: async (req, res) => {
         const id = req.user.id;
 
-        let { nbPoints } = req.body;
-        if (isNaN(nbPoints)) {
-            res.status(400).json({ error: 'Invalid number of points!' });
-            return;
-        }
-        nbPoints = parseInt(nbPoints);
-        const updatedUser = userModel.updateNbPoints(id, nbPoints);
-        res.json(updatedUser);
-    },
-    deleteUser: (req, res) => {
-        const id = req.user.id;
-
-        userModel.delete(id);
+        await userRepository.delete(id);
         res.json('User deleted!');
     },
 };

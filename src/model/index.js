@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
-import userBuilder from "./builders/user.builder.js";
-import groupBuilder from "./builders/group.builder.js";
-import memberBuilder from "./builders/member.builder.js";
-import choreBuilder from "./builders/chore.builder.js";
-import memberChoreBuilder from "./builders/memberChore.builder.js";
+import userModel from "./user.model.js";
+import groupModel from "./group.model.js";
+import memberModel from "./member.model.js";
+import choreModel from "./chore.model.js";
+import memberChoreModel from "./memberChore.model.js";
 
 
 const { DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_DIALECT } = process.env;
@@ -25,13 +25,18 @@ db.sequelize = sequelize;
 
 //! Definition des modèles
 // Initialisation des modèles
-const User = userBuilder(sequelize);
-const Group = groupBuilder(sequelize);
-const Member = memberBuilder(sequelize);
-const Chore = choreBuilder(sequelize);
-const MemberChore = memberChoreBuilder(sequelize);
+
+const models = {
+    User: userModel(sequelize),
+    Group: groupModel(sequelize),
+    Member: memberModel(sequelize),
+    Chore: choreModel(sequelize),
+    MemberChore: memberChoreModel(sequelize)
+}
 
 // Définition des relations
+const { User, Group, Member, Chore, MemberChore } = models;
+
 User.hasMany(Member, { foreignKey: "userId" });
 Member.belongsTo(User, { foreignKey: "userId" });
 
@@ -66,9 +71,9 @@ const connectDB = async () => {
 
         //? Methode d'initialisation et modification de la DB
         //? Modification autorisé sur les tables
-        // await db.sequelize.sync({
-        //     alter: true
-        // });
+        await db.sequelize.sync({
+            alter: true
+        });
 
         //? Ajouts autorisé sur les tables
         // await db.sequelize.sync({
@@ -76,11 +81,13 @@ const connectDB = async () => {
         // });
 
         //? Methode pour forcer la recréation complete des tables (Dernier recours - Uniquement en DEV !!!)
-        await db.sequelize.sync({
-            force: true
-        });
+        // await db.sequelize.sync({
+        //     force: true
+        // });
     }
 }
 
+db.connectDB = connectDB;
+db.models = models;
 
-export { sequelize, User, Group, Member, Chore, MemberChore, connectDB};
+export default { db };

@@ -1,6 +1,6 @@
-import userModel from '../../model/user.model.js';
+import userRepository from '../../repositories/user.repository.js';
 
-const validateUserMiddleware = (req, res, next) => {
+const validateUserMiddleware = async (req, res, next) => {
     if (!req.params.id) {
         res.status(400).json({ error: 'Missing user ID' });
         return;
@@ -12,7 +12,7 @@ const validateUserMiddleware = (req, res, next) => {
         return;
     }
 
-    const user = userModel.getById(id);
+    const user = await userRepository.getById(id);
     if (!user) {
         res.status(404).json({ error: 'User not found' });
         return;
