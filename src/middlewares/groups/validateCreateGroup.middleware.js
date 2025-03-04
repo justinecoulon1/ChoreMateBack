@@ -1,4 +1,4 @@
-import userModel from '../../repositories/user.repository.js';
+import userRepository from '../../repositories/user.repository.js';
 
 const validateCreateGroupMiddleWare = async (req, res, next) => {
 
@@ -14,7 +14,7 @@ const validateCreateGroupMiddleWare = async (req, res, next) => {
         return;
     }
 
-    const user = await userModel.getById(adminGroupId);
+    const user = await userRepository.getById(adminGroupId);
     if (!user) {
         res.status(404).json({ error: 'User not found, cannot be admin of a group' });
         return;
