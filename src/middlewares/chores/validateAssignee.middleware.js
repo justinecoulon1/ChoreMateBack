@@ -1,7 +1,7 @@
 import choresRepository from '../../repositories/chores.repository.js';
 import userModel from '../../repositories/user.repository.js';
 
-const validateAssigneeMiddleware = (req, res, next) => {
+const validateAssigneeMiddleware = async (req, res, next) => {
     if (!req.params.id) {
         res.status(400).json({ error: 'Missing chore ID' });
         return;
@@ -23,13 +23,13 @@ const validateAssigneeMiddleware = (req, res, next) => {
         return;
     }
 
-    const chore = choresRepository.getById(id);
+    const chore = await choresRepository.getById(id);
     if (!chore) {
         res.status(404).json({ error: 'Chore not found' });
         return;
     }
 
-    const user = userModel.getById(assigneeId);
+    const user = await userModel.getById(assigneeId);
     if (!user) {
         res.status(404).json({ error: 'User not found' });
         return;

@@ -21,9 +21,9 @@ async function initDB() {
         ],);
 
         await db.models.Chore.bulkCreate([
-            { id: 1, name: "Faire la vaisselle", status: "TODO", dueDate: "2025-03-04", groupId: 1 },
-            { id: 2, name: "Tondre la pelouse", status: "DONE", dueDate: "2025-03-04", groupId: 1 },
-            { id: 3, name: "Nourrir les chats", status: "TODO", dueDate: "2025-03-04", groupId: 2 },
+            { id: 1, name: "Faire la vaisselle", status: "TODO", dueDate: "2025-03-06", groupId: 1 },
+            { id: 2, name: "Tondre la pelouse", status: "DONE", dueDate: "2025-03-05", groupId: 1 },
+            { id: 3, name: "Nourrir les chats", status: "TODO", dueDate: "2025-03-08", groupId: 2 },
         ], { validate: true });
         await db.models.MemberChore.bulkCreate([
             { memberId: 1, choreId: 1 },

@@ -23,7 +23,7 @@ const choreController = {
 
     addPost: async (req, res) => {
         try {
-            const newChore = await choresRepository.add(req.body.name, req.body.assignee, req.body.date);
+            const newChore = await choresRepository.add(req.body.name, req.body.date, req.body.assignee);
             res.status(201).json(newChore);
         } catch (error) {
             res.status(401).json({ err: error.message });
@@ -49,23 +49,26 @@ const choreController = {
     addAssignee: async (req, res) => {
         const { chore, user } = req;
 
-        if (chore.assignee.includes(user.id)) {
-            res.status(400).json({ error: 'User already assigned to this chore' });
-            return;
-        }
+        // TODO create memberChoreRepo : check if the chore is already assigned (using choreId, userId)
+        // TODO instead of getting the user get the member
 
-        await choresRepository.addAssignee(chore.id, user.id);
+        // if (chore.assignee.includes(user.id)) {
+        //     res.status(400).json({ error: 'User already assigned to this chore' });
+        //     return;
+        // }
+        const memberChore = await choresRepository.addAssignee(chore.id, user.id);
 
-        res.status(200).json(chore);
+        res.status(200).json(memberChore);
     },
 
     removeAssignee: async (req, res) => {
         const { chore, user } = req;
-        const memberChore = await chore 
-        if (!chore.assignee.includes(user.id)) {
-            res.status(400).json({ error: 'User not assigned to this chore' });
-            return;
-        }
+        // TODO Same thing here getMember
+
+        // if (!chore.assignee.includes(user.id)) {
+        //     res.status(400).json({ error: 'User not assigned to this chore' });
+        //     return;
+        // }
 
         await choresRepository.removeAssignee(chore.id, user.id);
 
@@ -74,8 +77,11 @@ const choreController = {
 
     deleteChore: async (req, res) => {
         const choreId = req.params.id;
-        await choresRepository.delete(choreId);
-
+        const deleted = await choresRepository.delete(choreId);
+        if (!deleted) {
+            res.status(200).json("Chore doesn't exist !");
+            return;
+        }
         res.status(200).json("Chore was successfully deleted.");
     }
 };

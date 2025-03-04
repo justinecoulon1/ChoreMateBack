@@ -2,14 +2,14 @@ import { db } from "../model/index.js";
 
 const memberRepository = {
 
-    addMember: async (groupId, userId, role) => {    
+    addMember: async (groupId, userId, role) => {
         const member = {
-            groupId,
-            userId,
             role,
-            nb_points: 0
+            score: 0,
+            userId,
+            groupId,
         }
-        return db.models.Member.create(member);
+        await db.models.Member.create(member);
     }
 }
 

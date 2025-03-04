@@ -11,19 +11,21 @@ const choresRepository = {
 
         const chores = await db.models.Chore.findAll({
             where: {
-                groupeId: group.id,
+                groupId: group.id,
             }
         });
 
         return chores;
     },
 
-    add: async (choreName, choreDate) => {
-        //! by default assign to no one
+    add: async (choreName, choreDate, _userId) => {
+        // ? by default assign to no one
+        // Todo assign directly to a user : call addAssignee
+
         const newChore = {
             name: choreName,
             status: 'TODO',
-            date: choreDate
+            dueDate: choreDate
         }
 
         return db.models.Chore.create(newChore);
@@ -39,15 +41,14 @@ const choresRepository = {
         return chore;
     },
 
-    addAssignee: async (choreId, userId) => {
-        await db.models.MemberChore.create({ userId, choreId })
-        const chore = await db.models.Chore.findByPk(choreId);
-
-        return chore;
+    addAssignee: async (choreId, memberId) => {
+        const memberChore = await db.models.MemberChore.create({ memberId, choreId })
+        return memberChore;
     },
-    removeAssignee: async (choreId, userId) => {
-
-        await db.Chore.destroy().where({ id: choreId });
+    removeAssignee: async (choreId, memberId) => {
+        await db.MemberChore.destroy({
+            where: { memberId, choreId }
+        });
 
         //! If no other assignments to chore ? should we remove the chore  
         const assignementLeft = await db.models.MemberChore.count({ where: { choreId } })
@@ -65,11 +66,9 @@ const choresRepository = {
     },
     delete: async (choreId) => {
         const chore = await db.models.Chore.findByPk(choreId);
-        if (!chore) throw new Error("Chore not found!")
+        if (!chore) return false
+        return true;
     }
-
-
-
 
 }
 

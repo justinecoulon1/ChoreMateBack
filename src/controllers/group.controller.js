@@ -22,14 +22,13 @@ const groupController = {
     },
     addGroup: async (req, res) => {
         const { adminGroupId, groupName } = req.body;
-        const newGroup = await groupRepository.addGroup(adminGroupId, groupName);
-        await memberRepository.addMember(adminGroupId, newGroup.id, "ADMIN");
+        const newGroup = await groupRepository.addGroup(groupName);
+        await memberRepository.addMember(newGroup.id, adminGroupId, "ADMIN");
         res.json(newGroup);
     },
     getAllChoresInAGroup: async (req, res) => {
         const group = req.group;
         const chores = await choresRepository.getAllInAGroup(group);
-
         res.json(chores);
     }
 }
