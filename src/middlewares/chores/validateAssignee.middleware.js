@@ -1,4 +1,4 @@
-import choresModel from '../../repositories/chores.repository.js';
+import choresRepository from '../../repositories/chores.repository.js';
 import userModel from '../../repositories/user.repository.js';
 
 const validateAssigneeMiddleware = (req, res, next) => {
@@ -23,7 +23,7 @@ const validateAssigneeMiddleware = (req, res, next) => {
         return;
     }
 
-    const chore = choresModel.getById(id);
+    const chore = choresRepository.getById(id);
     if (!chore) {
         res.status(404).json({ error: 'Chore not found' });
         return;

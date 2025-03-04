@@ -10,8 +10,8 @@ async function initDB() {
         ], { validate: true });
 
         await db.models.Group.bulkCreate([
-            { id: 1, name: "La famille de Paul", admin_id: 1 },
-            { id: 2, name: "Amis", admin_id: 3 }
+            { id: 1, name: "La famille de Paul" },
+            { id: 2, name: "Amis" }
         ], { validate: true });
 
         await db.models.Member.bulkCreate([

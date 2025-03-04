@@ -1,4 +1,5 @@
 import { db } from "../model/index.js";
+import memberRepository from "./member.repository.js";
 
 const groupRepository = {
     getAll: async () => {
@@ -9,12 +10,13 @@ const groupRepository = {
         return group;
     },
     addGroup: async (adminGroupId, groupName) => {
-        const newGroup = {
-            admin: adminGroupId,
+        const newGroup = await db.models.Group.create({
             name: groupName,
-        }
+        });
 
-        return db.models.Group.create(newGroup);
+        await memberRepository.addMember(newGroup.id, adminGroupId, "ADMIN");
+
+        return db.models.Group.findByPk(newGroup.id);
     }
 }
 

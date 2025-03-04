@@ -1,5 +1,5 @@
 import express from 'express';
-import choresModel from '../repositories/chores.repository.js';
+import choresRepository from '../repositories/chores.repository.js';
 
 /**
  * @callback ExpressCallback
@@ -11,9 +11,9 @@ import choresModel from '../repositories/chores.repository.js';
  * @type {Object<string, ExpressCallback>}
  */
 const choreController = {
-    details: (req, res) => {
+    details: async (req, res) => {
         const id = parseInt(req.params.id);
-        const chore = choresModel.getById(id);
+        const chore = await choresRepository.getById(id);
         if (chore) {
             res.status(200).json(chore);
             return;
@@ -21,17 +21,16 @@ const choreController = {
         res.status(404).json({ err: 'Not found' });
     },
 
-    addPost: (req, res) => {
+    addPost: async (req, res) => {
         try {
-            const newChore = choresModel.add(req.body.name, req.body.assignee, req.body.date);
-            console.log(newChore);
+            const newChore = await choresRepository.add(req.body.name, req.body.assignee, req.body.date);
             res.status(201).json(newChore);
         } catch (error) {
             res.status(401).json({ err: error.message });
         }
     },
 
-    completeChore: (req, res) => {
+    completeChore: async (req, res) => {
         if (!req.params.id) {
             res.status(400).json({ error: 'Missing chore ID' });
             return;
@@ -43,11 +42,11 @@ const choreController = {
             return;
         }
 
-        const chore = choresModel.markAsCompleted(id);
+        const chore = await choresRepository.markAsCompleted(id);
         res.status(200).json(chore);
     },
 
-    addAssignee: (req, res) => {
+    addAssignee: async (req, res) => {
         const { chore, user } = req;
 
         if (chore.assignee.includes(user.id)) {
@@ -55,27 +54,27 @@ const choreController = {
             return;
         }
 
-        choresModel.addAssignee(chore.id, user.id);
+        await choresRepository.addAssignee(chore.id, user.id);
 
         res.status(200).json(chore);
     },
 
-    removeAssignee: (req, res) => {
+    removeAssignee: async (req, res) => {
         const { chore, user } = req;
-
+        const memberChore = await chore 
         if (!chore.assignee.includes(user.id)) {
             res.status(400).json({ error: 'User not assigned to this chore' });
             return;
         }
 
-        choresModel.removeAssignee(chore.id, user.id);
+        await choresRepository.removeAssignee(chore.id, user.id);
 
         res.status(200).json(chore);
     },
 
-    deleteChore: (req, res) => {
+    deleteChore: async (req, res) => {
         const choreId = req.params.id;
-        choresModel.delete(choreId);
+        await choresRepository.delete(choreId);
 
         res.status(200).json("Chore was successfully deleted.");
     }

@@ -1,75 +1,76 @@
-import chores from '../../mockup_data/chores.json' with { type: 'json' };
-import groupRepository from './group.repository.js';
+import { db } from "../model/index.js";
 
-const context = {
-    chores: chores,
-    nextId: 4
-}
+const choresRepository = {
 
-const choresModel = {
-
-    getById: (id) => {
-        const chore = context.chores.find(c => c.id === id);
+    getById: async (id) => {
+        const chore = await db.models.Chore.findByPk(id);
         return chore;
     },
 
-    getAllInAGroup: (group) => {
-        const choresTab = [];
+    getAllInAGroup: async (group) => {
 
-        for (let choreId of group.chores) {
-            const chore = choresModel.getById(choreId);
-            choresTab.push(chore);
-        }
+        const chores = await db.models.Chore.findAll({
+            where: {
+                groupeId: group.id,
+            }
+        });
 
-        return structuredClone(choresTab);
+        return chores;
     },
 
-    add: (choreName, choreAssignee, choreDate) => {
+    add: async (choreName, choreDate) => {
+        //! by default assign to no one
         const newChore = {
-            id: context.nextId,
             name: choreName,
-            assignee: choreAssignee,
             status: 'TODO',
             date: choreDate
         }
-        context.chores.push(newChore);
-        context.nextId++;
-        console.log(context.chores);
 
-        return newChore;
+        return db.models.Chore.create(newChore);
     },
 
-    markAsCompleted: (id) => {
-        let chore = choresModel.getById(id);
-        if (chore) {
-            chore.status = 'DONE';
-            return chore;
+    markAsCompleted: async (id) => {
+        let chore = await db.models.Chore.findByPk(id);
+        if (!chore) {
+            return { err: "The chore wasn't found." };
         }
-        return {err: "The chore wasn't found."};
+        chore.set({ status: "DONE" });
+        await chore.save();
+        return chore;
     },
 
-    addAssignee: (choreId, userId) => {
-        const chore = choresModel.getById(choreId);
-        chore.assignee.push(userId);
+    addAssignee: async (choreId, userId) => {
+        await db.models.MemberChore.create({ userId, choreId })
+        const chore = await db.models.Chore.findByPk(choreId);
 
-        return structuredClone(chore);
+        return chore;
     },
+    removeAssignee: async (choreId, userId) => {
 
-    removeAssignee: (choreId, userId) => {
-        const chore = choresModel.getById(choreId);
-        chore.assignee = chore.assignee.filter((uId) => uId !== userId);
+        await db.Chore.destroy().where({ id: choreId });
 
-        return structuredClone(chore);
+        //! If no other assignments to chore ? should we remove the chore  
+        const assignementLeft = await db.models.MemberChore.count({ where: { choreId } })
+        if (assignementLeft === 0) {
+            await db.models.Chore.destroy({ where: { id: choreId } })
+        }
+
     },
-
-    delete: (choreId) => {
-        context.chores = context.chores.filter(c => c.id !== choreId);
-        return {status: "Chore was deleted successfully."};
+    checkChoreAssignedToMember: async (userId, choreId) => {
+        const memberChore = await db.models.MemberChore.findOne({ where: { userId, choreId } });
+        if (!memberChore) {
+            return false
+        }
+        return true;
+    },
+    delete: async (choreId) => {
+        const chore = await db.models.Chore.findByPk(choreId);
+        if (!chore) throw new Error("Chore not found!")
     }
 
 
-    
+
 
 }
 
-export default choresModel;
+export default choresRepository;
