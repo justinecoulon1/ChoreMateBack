@@ -20,19 +20,19 @@ export function authentificationMiddelware() {
     }
 }
 
-export function authorizationMiddelware(adminOnly = false) {
-    return function (req, res, next) {
-        const token = req.token;
+// export function authorizationMiddelware(adminOnly = false, groupId) {
+//     return function (req, res, next) {
+//         const token = req.token;
 
-        if (!token) {
-            res.sendStatus(401);
-            return;
-        }
+//         if (!token) {
+//             res.sendStatus(401);
+//             return;
+//         }
 
-        if (adminOnly && member.role !== 'ADMIN') {
-            res.sendStatus(403);
-        }
+//         if (adminOnly && member.role !== 'ADMIN') {
+//             res.sendStatus(403);
+//         }
 
-        next();
-    }
-}
+//         next();
+//     }
+// }

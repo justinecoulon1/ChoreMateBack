@@ -13,6 +13,7 @@ import userRepository from '../repositories/user.repository.js';
 const userController = {
     getAll: async (req, res) => {
         const users = await userRepository.getAll();
+        console.log(req.token);
         res.json(users);
     },
     getUser: (req, res) => {
