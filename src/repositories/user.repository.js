@@ -17,11 +17,11 @@ const userRepository = {
         });
         return user;
     },
-    addUser: async ({ name, email, password }) => {
+    addUser: async ({ name, email, hashedPassword }) => {
         const newUser = {
             name,
             email,
-            password
+            password: hashedPassword
         }
         await db.models.User.create(newUser);
         return newUser;

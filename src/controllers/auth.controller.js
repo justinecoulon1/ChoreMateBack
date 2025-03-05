@@ -1,4 +1,5 @@
 import express from 'express';
+import argon2 from "argon2";
 import userRepository from '../repositories/user.repository.js';
 
 /**
@@ -26,8 +27,13 @@ const authController = {
 
     const user = await userRepository.getByEmail(email);
 
-    if (!user || password !== user.password) {
+    if (!user) {
       res.status(403).json({ error: 'Wrong credentials' });
+      return;
+    }
+    const matchPassword = await argon2.verify(user.password, password)
+    if (!matchPassword) {
+      res.status(401).json({ error: 'Wrong credentials' });
       return;
     }
 
@@ -38,12 +44,13 @@ const authController = {
     let { name, password, email } = req.body;
     name = name?.trim();
     // TODO More validation here : (ZOD ? )
+    // TODO check if user has already the same email
     if (!name || !password || !email) {
       res.status(400).json({ error: 'Missing credentials !' });
       return;
     }
-    // TODO check if user has already the same email
-    const newUser = await userRepository.addUser({ name, email, password });
+    const hashedPassword = await argon2.hash(password);
+    const newUser = await userRepository.addUser({ name, email, hashedPassword });
     res.json(newUser);
   },
   logout: (req, res) => {
