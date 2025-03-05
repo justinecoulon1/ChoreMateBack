@@ -1,12 +1,18 @@
 import jwt from 'jsonwebtoken';
+import memberRepository from '../src/repositories/member.repository.js';
 
 export function generateJWT({ id, name, email }) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+
+        const memberData = await memberRepository.getByUserId(id);
+
+        const member = memberData[0].dataValues;
 
         const data = {
             id,
             name,
-            email
+            email,
+            role: (member) ? member.role : undefined
         };
 
         const secret = process.env.JWT_SECRET;
