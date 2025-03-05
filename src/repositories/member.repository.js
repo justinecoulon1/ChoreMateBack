@@ -14,11 +14,13 @@ const memberRepository = {
     },
 
     getByUserId: async (userId) => {
-        await db.models.findAll({
+        const member = await db.models.Member.findAll({
             where: {
                 userId: userId
             }
         });
+
+        return member;
     }
 }
 

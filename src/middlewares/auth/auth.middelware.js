@@ -1,4 +1,5 @@
 import { decodeJWT } from "../../../helpers/jwt.helper.js";
+import memberRepository from "../../repositories/member.repository.js";
 
 export function authentificationMiddelware() {
     return function (req, res, next) {
@@ -19,15 +20,27 @@ export function authentificationMiddelware() {
     }
 }
 
-// export function authorizationMiddelware(adminOnly = false) {
-//     return function (req, res, next) {
-//         const token = req.token;
+export async function authorizationMiddelware(adminOnly = false) {
+    return async function (req, res, next) {
+        const token = req.token;
 
-//         if (!token) {
-//             res.sendStatus(401);
-//             return;
-//         }
+        if (!token) {
+            res.sendStatus(401);
+            return;
+        }
 
-//         if (adminOnly && token)
-//     }
-// }
+        const userId = parseInt(req.token.id);
+        const member = await memberRepository.getByUserId(userId);
+
+        if (!member) {
+            res.sendStatus(401);
+            return;
+        }
+
+        if (adminOnly && member.role !== 'ADMIN') {
+            res.sendStatus(403);
+        }
+
+        next();
+    }
+}
