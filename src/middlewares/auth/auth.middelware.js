@@ -18,3 +18,16 @@ export function authentificationMiddelware() {
             .finally(() => next());
     }
 }
+
+// export function authorizationMiddelware(adminOnly = false) {
+//     return function (req, res, next) {
+//         const token = req.token;
+
+//         if (!token) {
+//             res.sendStatus(401);
+//             return;
+//         }
+
+//         if (adminOnly && token)
+//     }
+// }
