@@ -4,9 +4,9 @@ async function initDB() {
         await db.connectDB();
 
         await db.models.User.bulkCreate([
-            { name: "Paul", email: "p@gmail.com", password: "123" },
-            { name: "Mireille", email: "m@gmail.com", password: "123" },
-            { name: "Jean", email: "j@gmail.com", password: "123" }
+            { name: "Paul", email: "p@gmail.com", password: "$argon2id$v=19$m=65536,t=3,p=4$uUd0LfxOt7o0cLKMXhxy0A$KV9WKA3GV32TaPfCAjT2Adv/GcnKZqf9WmT+WiwmrKE" },
+            { name: "Mireille", email: "m@gmail.com", password: "$argon2id$v=19$m=65536,t=3,p=4$uUd0LfxOt7o0cLKMXhxy0A$KV9WKA3GV32TaPfCAjT2Adv/GcnKZqf9WmT+WiwmrKE" },
+            { name: "Jean", email: "j@gmail.com", password: "$argon2id$v=19$m=65536,t=3,p=4$uUd0LfxOt7o0cLKMXhxy0A$KV9WKA3GV32TaPfCAjT2Adv/GcnKZqf9WmT+WiwmrKE" }
         ], { validate: true });
 
         await db.models.Group.bulkCreate([
@@ -22,7 +22,7 @@ async function initDB() {
 
         await db.models.Chore.bulkCreate([
             { id: 1, name: "Faire la vaisselle", status: "TODO", dueDate: "2025-03-06", groupId: 1 },
-            { id: 2, name: "Tondre la pelouse", status: "DONE", dueDate: "2025-03-05", groupId: 1 },
+            { id: 2, name: "Tondre la pelouse", status: "DONE", dueDate: "2025-03-06", groupId: 1 },
             { id: 3, name: "Nourrir les chats", status: "TODO", dueDate: "2025-03-08", groupId: 2 },
         ], { validate: true });
         await db.models.MemberChore.bulkCreate([
