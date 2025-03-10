@@ -1,6 +1,7 @@
 import express from 'express';
 import argon2 from "argon2";
 import userRepository from '../repositories/user.repository.js';
+import { generateJWT } from '../../helpers/jwt.helper.js';
 
 /**
  * @callback ExpressCallback
@@ -37,8 +38,10 @@ const authController = {
       return;
     }
 
+    const token = await generateJWT(user);
+
     req.session.user = user;
-    res.status(200).json(user);
+    res.status(200).json(token);
   },
   register: async (req, res) => {
     let { name, password, email } = req.body;
