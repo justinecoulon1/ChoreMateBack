@@ -13,13 +13,13 @@ const memberRepository = {
         await db.models.Member.create(member);
     },
 
-    getByUserId: async (userId) => {
+    getByUserAndGroup: async (userId, groupId) => {
         const member = await db.models.Member.findAll({
             where: {
-                userId: userId
+                userId: userId,
+                groupId: groupId
             }
         });
-
         return member;
     }
 }

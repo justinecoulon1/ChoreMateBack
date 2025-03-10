@@ -1,5 +1,6 @@
 import express from 'express';
 import userRepository from '../repositories/user.repository.js';
+import memberRepository from '../repositories/member.repository.js';
 
 /**
  * @callback ExpressCallback
@@ -13,7 +14,6 @@ import userRepository from '../repositories/user.repository.js';
 const userController = {
     getAll: async (req, res) => {
         const users = await userRepository.getAll();
-        console.log(req.token);
         res.json(users);
     },
     getUser: (req, res) => {

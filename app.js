@@ -7,7 +7,7 @@ import choresRouter from './src/routers/chores.router.js';
 import groupRouter from './src/routers/group.router.js';
 import { db } from './src/model/index.js';
 import userRouter from './src/routers/user.router.js';
-import { authentificationMiddelware } from './src/middlewares/auth/auth.middelware.js';
+import { authentificationMiddleware } from './src/middlewares/auth/auth.middelware.js';
 
 const { NODE_ENV, PORT, CLIENT_ORIGIN, SESSION_SECRET } = process.env;
 
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(authentificationMiddelware());
+app.use(authentificationMiddleware());
 
 // Enable CORS to allow the front-end to access our routes
 app.use(

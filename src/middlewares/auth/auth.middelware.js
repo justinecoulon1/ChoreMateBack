@@ -1,7 +1,7 @@
 import { decodeJWT } from "../../../helpers/jwt.helper.js";
 import memberRepository from "../../repositories/member.repository.js";
 
-export function authentificationMiddelware() {
+export function authentificationMiddleware() {
     return function (req, res, next) {
         const authData = req.headers['authorization'];
 
@@ -20,19 +20,30 @@ export function authentificationMiddelware() {
     }
 }
 
-// export function authorizationMiddelware(adminOnly = false, groupId) {
-//     return function (req, res, next) {
-//         const token = req.token;
+export async function authorizationMiddleware(adminOnly = false) {
+    return async function (req, res, next) {
+        const token = req.token;
 
-//         if (!token) {
-//             res.sendStatus(401);
-//             return;
-//         }
+        if (!token) {
+            res.sendStatus(401);
+            return;
+        }
 
-//         if (adminOnly && member.role !== 'ADMIN') {
-//             res.sendStatus(403);
-//         }
+        
+        const groupId = parseInt(req.params.id); // Action on a group so id in the params ??
+        const userId = token.id;
+        
+        // Function to check if the person connected is part of the group and if he is admin
+        const member = await memberRepository.getByUserAndGroup(userId, groupId);
 
-//         next();
-//     }
-// }
+        if (member.length === 0) {
+            return res.sendStatus(403);
+        }
+
+        if (adminOnly && member[0].role !== 'ADMIN') {
+            res.sendStatus(403);
+        }
+
+        next();
+    }
+}
