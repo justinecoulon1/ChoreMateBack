@@ -31,8 +31,14 @@ export async function authorizationMiddleware(adminOnly = false) {
 
         
         const groupId = parseInt(req.params.id); // Action on a group so id in the params ??
+
+        if (!groupId || groupId < 1) {
+            res.sendStatus(404);
+            return;
+        }
+
         const userId = token.id;
-        
+
         // Function to check if the person connected is part of the group and if he is admin
         const member = await memberRepository.getByUserAndGroup(userId, groupId);
 
