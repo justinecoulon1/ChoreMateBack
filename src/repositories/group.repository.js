@@ -13,6 +13,13 @@ const groupRepository = {
             name: groupName,
         });
         return db.models.Group.findByPk(newGroup.id);
+    },
+    delete: async (groupeId) => {
+        await db.models.Group.destroy({
+            where: {
+                id: groupeId
+            }
+        });
     }
 }
 

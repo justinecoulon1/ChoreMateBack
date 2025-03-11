@@ -30,6 +30,11 @@ const groupController = {
         const group = req.group;
         const chores = await choresRepository.getAllInAGroup(group);
         res.json(chores);
+    },
+    delete: async (req, res) => {
+        const id = req.group.id;
+        await groupRepository.delete(id);
+        res.sendStatus(200);
     }
 }
 

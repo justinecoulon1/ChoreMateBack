@@ -9,7 +9,9 @@ const groupRouter = express.Router();
 groupRouter.route('/')
     .get(groupController.getAll)
     .post(validateCreateGroupMiddleWare, groupController.addGroup);
-groupRouter.get('/:id', validateGroupMiddleWare, groupController.getById);
+groupRouter.route('/:id')
+    .get(validateGroupMiddleWare, groupController.getById)
+    .delete(validateGroupMiddleWare, groupController.delete)
 groupRouter.get('/:id/chores', validateGroupMiddleWare, groupController.getAllChoresInAGroup);
 
 export default groupRouter;
