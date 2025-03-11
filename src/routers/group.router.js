@@ -1,7 +1,8 @@
 import express from 'express'
-import groupController from '../controllers/group.controller.js';
 import validateGroupMiddleWare from '../middlewares/groups/validateGroup.middleware.js';
 import validateCreateGroupMiddleWare from '../middlewares/groups/validateCreateGroup.middleware.js';
+import validateNewMemberMiddleWare from '../middlewares/groups/validateNewMember.middleware.js';
+import groupController from '../controllers/group.controller.js';
 
 
 const groupRouter = express.Router();
@@ -12,6 +13,7 @@ groupRouter.route('/')
 groupRouter.route('/:id')
     .get(validateGroupMiddleWare, groupController.getById)
     .delete(validateGroupMiddleWare, groupController.delete)
+    .post(validateGroupMiddleWare, validateNewMemberMiddleWare, groupController.addNewMember)
 groupRouter.get('/:id/chores', validateGroupMiddleWare, groupController.getAllChoresInAGroup);
 
 export default groupRouter;

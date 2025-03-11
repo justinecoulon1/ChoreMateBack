@@ -35,6 +35,11 @@ const groupController = {
         const id = req.group.id;
         await groupRepository.delete(id);
         res.sendStatus(200);
+    },
+    addNewMember: async (req, res) => {
+        const { userId, role } = req.body;
+        await memberRepository.addMember(req.group.id, parseInt(userId), role);
+        res.json(200);
     }
 }
 
