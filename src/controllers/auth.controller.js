@@ -1,7 +1,8 @@
-import express from 'express';
 import argon2 from "argon2";
-import userRepository from '../repositories/user.repository.js';
+import express from 'express';
 import { generateJWT } from '../../helpers/jwt.helper.js';
+import userRepository from '../repositories/user.repository.js';
+import { UserRegisterSchema } from "../validators/user.validator.js";
 
 /**
  * @callback ExpressCallback
@@ -44,17 +45,21 @@ const authController = {
     res.status(200).json(token);
   },
   register: async (req, res) => {
-    let { name, password, email } = req.body;
-    name = name?.trim();
-    // TODO More validation here : (ZOD ? )
-    // TODO check if user has already the same email
-    if (!name || !password || !email) {
-      res.status(400).json({ error: 'Missing credentials !' });
+    const { data, success, error } = UserRegisterSchema.safeParse(req.body);
+    if (!success) {
+      res.status(422).json({ error: error.flatten().fieldErrors });
+      return;
+    }
+
+    const { name, password, email } = data;
+
+    const nameTrimmed= name.trim();
+    const emailTrimmed = email.trim()
       return;
     }
     const hashedPassword = await argon2.hash(password);
-    const newUser = await userRepository.addUser({ name, email, hashedPassword });
-    res.json(newUser);
+    const newUser = await userRepository.addUser({ name: nameTrimmed, email: emailTrimmed, hashedPassword });
+    res.status(201).json(newUser);
   },
   logout: (req, res) => {
     req.session.destroy();
