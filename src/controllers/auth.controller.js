@@ -55,8 +55,13 @@ const authController = {
 
     const nameTrimmed= name.trim();
     const emailTrimmed = email.trim()
+
+    const existingUser = await userRepository.getByEmail(emailTrimmed)
+    if (existingUser) {
+      res.status(409).json('Email already in use');
       return;
     }
+
     const hashedPassword = await argon2.hash(password);
     const newUser = await userRepository.addUser({ name: nameTrimmed, email: emailTrimmed, hashedPassword });
     res.status(201).json(newUser);
