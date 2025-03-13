@@ -16,10 +16,17 @@ const validateNewMemberMiddleWare = async (req, res, next) => {
         return;
     }
 
-    const user = userRepository.getById(parseInt(userId));
+    const user = await userRepository.getById(parseInt(userId));
 
     if (!user) {
         res.status(404).json({ error: "User not found" });
+        return;
+    }
+
+    const group = await memberRepository.getByUserAndGroup(parseInt(userId), parseInt(req.group.id));
+
+    if (group.length > 0) {
+        res.status(409).json({ error: "This user is already in the group" });
         return;
     }
 
