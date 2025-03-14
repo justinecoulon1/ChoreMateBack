@@ -38,10 +38,9 @@ const groupController = {
         res.sendStatus(200);
     },
     addNewMember: async (req, res) => {
-        //TODO Check if member is already in group
         const { userId, role } = req.body;
         await memberRepository.addMember(req.group.id, parseInt(userId), role);
-        res.json(200);
+        res.sendStatus(200);
     }
 }
 
