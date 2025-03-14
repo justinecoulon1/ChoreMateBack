@@ -2,6 +2,7 @@ import express from 'express';
 import groupRepository from '../repositories/group.repository.js';
 import memberRepository from '../repositories/member.repository.js';
 import choresRepository from '../repositories/chores.repository.js';
+import { GroupDetailDTO } from '../../dto/group.dto.js';
 
 /**
  * @callback ExpressCallback
@@ -18,7 +19,7 @@ const groupController = {
         res.json(groups);
     },
     getById: (req, res) => {
-        res.json(req.group);
+        res.json(new GroupDetailDTO(req.group));
     },
     addGroup: async (req, res) => {
         const { adminGroupId, groupName } = req.body;
@@ -30,6 +31,16 @@ const groupController = {
         const group = req.group;
         const chores = await choresRepository.getAllInAGroup(group);
         res.json(chores);
+    },
+    delete: async (req, res) => {
+        const id = req.group.id;
+        await groupRepository.delete(id);
+        res.sendStatus(200);
+    },
+    addNewMember: async (req, res) => {
+        const { userId, role } = req.body;
+        await memberRepository.addMember(req.group.id, parseInt(userId), role);
+        res.sendStatus(200);
     }
 }
 

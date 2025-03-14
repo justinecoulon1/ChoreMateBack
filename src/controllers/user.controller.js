@@ -1,6 +1,5 @@
 import express from 'express';
 import userRepository from '../repositories/user.repository.js';
-import memberRepository from '../repositories/member.repository.js';
 
 /**
  * @callback ExpressCallback

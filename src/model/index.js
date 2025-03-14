@@ -40,7 +40,7 @@ const { User, Group, Member, Chore, MemberChore } = models;
 User.hasMany(Member, { foreignKey: "userId" });
 Member.belongsTo(User, { foreignKey: "userId" });
 
-Group.hasMany(Member, { foreignKey: "groupId" });
+Group.hasMany(Member, { foreignKey: "groupId", onDelete: 'CASCADE' });
 Member.belongsTo(Group, { foreignKey: "groupId" });
 
 Group.hasMany(Chore, { foreignKey: "groupId" });
