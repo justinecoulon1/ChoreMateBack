@@ -3,6 +3,7 @@ import groupRepository from '../repositories/group.repository.js';
 import memberRepository from '../repositories/member.repository.js';
 import choresRepository from '../repositories/chores.repository.js';
 import { GroupDetailDTO } from '../dto/group.dto.js';
+import userRepository from '../repositories/user.repository.js';
 
 /**
  * @callback ExpressCallback
@@ -41,6 +42,11 @@ const groupController = {
         const { userId, role } = req.body;
         await memberRepository.addMember(req.group.id, parseInt(userId), role);
         res.sendStatus(200);
+    },
+    getGroupsByUserId: async (req, res) => {
+        const { id } = req.user;
+        const groups = await groupRepository.getGroupsByUserId(id)
+        res.json(groups);
     }
 }
 

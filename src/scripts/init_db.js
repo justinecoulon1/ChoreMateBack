@@ -17,7 +17,8 @@ async function initDB() {
         await db.models.Member.bulkCreate([
             { id: 1, groupId: 1, userId: 1, role: "ADMIN", score: 2 },
             { id: 2, groupId: 1, userId: 2, role: "USER", score: 8 },
-            { id: 3, groupId: 2, userId: 3, role: "ADMIN", score: 10 }
+            { id: 3, groupId: 2, userId: 3, role: "ADMIN", score: 10 },
+            { id: 4, groupId: 1, userId: 3, role: "USER", score: 10 },
         ],);
 
         await db.models.Chore.bulkCreate([
