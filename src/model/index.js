@@ -71,9 +71,9 @@ const connectDB = async () => {
 
         //? Methode d'initialisation et modification de la DB
         //? Modification autorisé sur les tables
-        await db.sequelize.sync({
-            alter: true
-        });
+        // await db.sequelize.sync({
+        //     alter: true
+        // });
 
         //? Ajouts autorisé sur les tables
         // await db.sequelize.sync({
@@ -81,9 +81,9 @@ const connectDB = async () => {
         // });
 
         //? Methode pour forcer la recréation complete des tables (Dernier recours - Uniquement en DEV !!!)
-        // await db.sequelize.sync({
-        //     force: true
-        // });
+        await db.sequelize.sync({
+            force: true
+        });
     }
 }
 

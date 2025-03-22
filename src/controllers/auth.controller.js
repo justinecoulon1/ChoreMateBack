@@ -1,6 +1,6 @@
 import argon2 from "argon2";
 import express from 'express';
-import { generateJWT } from '../../helpers/jwt.helper.js';
+import { generateJWT } from '../helpers/jwt.helper.js';
 import userRepository from '../repositories/user.repository.js';
 import { UserRegisterSchema } from "../validators/user.validator.js";
 
@@ -53,17 +53,14 @@ const authController = {
 
     const { name, password, email } = data;
 
-    const nameTrimmed= name.trim();
-    const emailTrimmed = email.trim()
-
-    const existingUser = await userRepository.getByEmail(emailTrimmed)
+    const existingUser = await userRepository.getByEmail(email)
     if (existingUser) {
       res.status(409).json('Email already in use');
       return;
     }
 
     const hashedPassword = await argon2.hash(password);
-    const newUser = await userRepository.addUser({ name: nameTrimmed, email: emailTrimmed, hashedPassword });
+    const newUser = await userRepository.addUser({ name, email, hashedPassword });
     res.status(201).json(newUser);
   },
   logout: (req, res) => {

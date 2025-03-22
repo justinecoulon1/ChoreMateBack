@@ -24,7 +24,7 @@ export default function choreModel(sequelize) {
                 type: DataTypes.DATE,
                 allowNull: false,
                 validate: {
-                    isAfter: new Date().toISOString()
+                    isAfter: new Date(Date.now() - 86400000).toISOString()
                 }
             }
         },

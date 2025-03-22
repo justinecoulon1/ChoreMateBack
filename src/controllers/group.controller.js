@@ -2,7 +2,7 @@ import express from 'express';
 import groupRepository from '../repositories/group.repository.js';
 import memberRepository from '../repositories/member.repository.js';
 import choresRepository from '../repositories/chores.repository.js';
-import { GroupDetailDTO } from '../../dto/group.dto.js';
+import { GroupDetailDTO } from '../dto/group.dto.js';
 
 /**
  * @callback ExpressCallback
