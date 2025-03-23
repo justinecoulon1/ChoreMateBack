@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import memberRepository from '../src/repositories/member.repository.js';
 
 export function generateJWT({ id, name, email }) {
     return new Promise(async (resolve, reject) => {

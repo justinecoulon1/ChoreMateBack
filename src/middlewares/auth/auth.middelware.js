@@ -1,4 +1,4 @@
-import { decodeJWT } from "../../../helpers/jwt.helper.js";
+import { decodeJWT } from "../../helpers/jwt.helper.js";
 import memberRepository from "../../repositories/member.repository.js";
 
 export function authentificationMiddleware() {

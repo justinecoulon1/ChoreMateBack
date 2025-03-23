@@ -13,9 +13,6 @@ const { NODE_ENV, PORT, CLIENT_ORIGIN, SESSION_SECRET } = process.env;
 
 const app = express();
 
-app.set('view engine', 'ejs');
-app.set('views', './views');
-
 // Middelware pour traiter les json en POST
 app.use(express.json());
 app.use(morgan('tiny'));

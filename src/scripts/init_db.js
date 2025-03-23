@@ -17,13 +17,14 @@ async function initDB() {
         await db.models.Member.bulkCreate([
             { id: 1, groupId: 1, userId: 1, role: "ADMIN", score: 2 },
             { id: 2, groupId: 1, userId: 2, role: "USER", score: 8 },
-            { id: 3, groupId: 2, userId: 3, role: "ADMIN", score: 10 }
+            { id: 3, groupId: 2, userId: 3, role: "ADMIN", score: 10 },
+            { id: 4, groupId: 1, userId: 3, role: "USER", score: 10 },
         ],);
 
         await db.models.Chore.bulkCreate([
-            { id: 1, name: "Faire la vaisselle", status: "TODO", dueDate: "2025-03-06", groupId: 1 },
-            { id: 2, name: "Tondre la pelouse", status: "DONE", dueDate: "2025-03-06", groupId: 1 },
-            { id: 3, name: "Nourrir les chats", status: "TODO", dueDate: "2025-03-08", groupId: 2 },
+            { id: 1, name: "Faire la vaisselle", status: "TODO", dueDate: "2025-03-28", groupId: 1 },
+            { id: 2, name: "Tondre la pelouse", status: "DONE", dueDate: "2025-03-26", groupId: 1 },
+            { id: 3, name: "Nourrir les chats", status: "TODO", dueDate: "2025-03-24", groupId: 2 },
         ], { validate: true });
         await db.models.MemberChore.bulkCreate([
             { memberId: 1, choreId: 1 },

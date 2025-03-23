@@ -33,6 +33,37 @@ const groupRepository = {
                 id: groupeId
             }
         });
+    },
+    getGroupsByUserId: async (userId) => {
+        const groups = await db.models.Group.findAll({
+            include: [
+                {
+                    model: db.models.Member,
+                    required: true,
+                    attributes: [],
+                    include: {
+                        model: db.models.User,
+                        where: {
+                            id: userId
+                        },
+
+                    }
+                }
+            ],
+
+        })
+        return groups;
+    },
+    updateGroupInfo: async (id, newName) => {
+        console.log(id, newName)
+        await db.models.Group.update(
+            {
+                name: newName
+            },
+            {
+                where: { id }
+            }
+        );
     }
 }
 

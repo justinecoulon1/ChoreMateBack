@@ -2,7 +2,8 @@ import express from 'express';
 import groupRepository from '../repositories/group.repository.js';
 import memberRepository from '../repositories/member.repository.js';
 import choresRepository from '../repositories/chores.repository.js';
-import { GroupDetailDTO } from '../../dto/group.dto.js';
+import { GroupDetailDTO } from '../dto/group.dto.js';
+import userRepository from '../repositories/user.repository.js';
 
 /**
  * @callback ExpressCallback
@@ -29,7 +30,16 @@ const groupController = {
     },
     getAllChoresInAGroup: async (req, res) => {
         const group = req.group;
-        const chores = await choresRepository.getAllInAGroup(group);
+        const filterDate = req.query?.filter_date ?? false;
+
+        // ! Check only the format of date (no valid month or day)
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (filterDate && !dateRegex.test(filterDate)) {
+            res.status(400).json({ "error": "Wrong date format. Expected YYYY-MM-DD" })
+            return;
+        }
+        const chores = await choresRepository.getAllInAGroup(group, filterDate);
         res.json(chores);
     },
     delete: async (req, res) => {
@@ -41,6 +51,23 @@ const groupController = {
         const { userId, role } = req.body;
         await memberRepository.addMember(req.group.id, parseInt(userId), role);
         res.sendStatus(200);
+    },
+    getGroupsByUserId: async (req, res) => {
+        const { id } = req.user;
+        const groups = await groupRepository.getGroupsByUserId(id)
+        res.json(groups);
+    },
+    updateGroupInfo: async (req, res) => {
+        const id = req.group.id;
+        let { newName } = req.body;
+        newName = newName.trim()
+        if (!newName) {
+            res.status(400).json({ "error": "new name must not be empty" })
+            return
+        }
+        await groupRepository.updateGroupInfo(id, newName)
+
+        res.json("Group updated !")
     }
 }
 

@@ -21,10 +21,10 @@ export default function choreModel(sequelize) {
                 defaultValue: 'TODO'
             },
             dueDate: {
-                type: DataTypes.DATE,
+                type: DataTypes.DATEONLY,
                 allowNull: false,
                 validate: {
-                    isAfter: new Date().toISOString()
+                    isAfter: new Date(Date.now() - 86400000).toISOString()
                 }
             }
         },
