@@ -53,6 +53,17 @@ const groupRepository = {
 
         })
         return groups;
+    },
+    updateGroupInfo: async (id, newName) => {
+        console.log(id, newName)
+        await db.models.Group.update(
+            {
+                name: newName
+            },
+            {
+                where: { id }
+            }
+        );
     }
 }
 

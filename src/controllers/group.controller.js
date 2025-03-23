@@ -56,6 +56,18 @@ const groupController = {
         const { id } = req.user;
         const groups = await groupRepository.getGroupsByUserId(id)
         res.json(groups);
+    },
+    updateGroupInfo: async (req, res) => {
+        const id = req.group.id;
+        let { newName } = req.body;
+        newName = newName.trim()
+        if (!newName) {
+            res.status(400).json({ "error": "new name must not be empty" })
+            return
+        }
+        await groupRepository.updateGroupInfo(id, newName)
+
+        res.json("Group updated !")
     }
 }
 

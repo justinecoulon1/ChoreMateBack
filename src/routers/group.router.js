@@ -14,8 +14,9 @@ groupRouter.route('/')
 groupRouter.route('/:id')
     .get(validateGroupMiddleWare, groupController.getById)
     .delete(validateGroupMiddleWare, groupController.delete)
-    .post(validateGroupMiddleWare, validateNewMemberMiddleWare, groupController.addNewMember)
-groupRouter.get("/:id/chores", validateGroupMiddleWare, groupController.getAllChoresInAGroup)
+    .patch(validateGroupMiddleWare, groupController.updateGroupInfo)
+    .post(validateGroupMiddleWare, validateNewMemberMiddleWare, groupController.addNewMember);
+groupRouter.get('/:id/chores', validateGroupMiddleWare, groupController.getAllChoresInAGroup);
 groupRouter.get('/user/:id', validateUserMiddleware, groupController.getGroupsByUserId);
 
 export default groupRouter;
