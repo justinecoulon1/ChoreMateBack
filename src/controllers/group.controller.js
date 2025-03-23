@@ -30,7 +30,16 @@ const groupController = {
     },
     getAllChoresInAGroup: async (req, res) => {
         const group = req.group;
-        const chores = await choresRepository.getAllInAGroup(group);
+        const filterDate = req.query?.filter_date ?? false;
+
+        // ! Check only the format of date (no valid month or day)
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (filterDate && !dateRegex.test(filterDate)) {
+            res.status(400).json({ "error": "Wrong date format. Expected YYYY-MM-DD" })
+            return;
+        }
+        const chores = await choresRepository.getAllInAGroup(group, filterDate);
         res.json(chores);
     },
     delete: async (req, res) => {

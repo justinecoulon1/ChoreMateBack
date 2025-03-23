@@ -7,17 +7,18 @@ const choresRepository = {
         return chore;
     },
 
-    getAllInAGroup: async (group) => {
-
+    getAllInAGroup: async (group, filterDate) => {
+        const filter = { groupId: group.id }
+        if (filterDate) {
+            filter.dueDate = filterDate;
+        }
+        
         const chores = await db.models.Chore.findAll({
-            where: {
-                groupId: group.id,
-            }
+            where: filter
         });
 
         return chores;
     },
-
     add: async (choreName, choreDate, _userId) => {
         // ? by default assign to no one
         // Todo assign directly to a user : call addAssignee
